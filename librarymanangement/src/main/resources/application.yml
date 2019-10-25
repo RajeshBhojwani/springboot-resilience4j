@@ -1,0 +1,93 @@
+server:
+  port: 8084
+
+management.endpoints.web.exposure.include: '*'
+management.endpoint.health.show-details: always
+management.health.circuitbreakers.enabled: true
+
+management:
+   metrics:
+    export:
+      newrelic:
+        api-key: wQsPsZ8e9TUHvXE15_wcTJkoo08nBco5
+        account-id: 1807775
+        step: 1m
+
+resilience4j.circuitbreaker:
+  instances:
+    add:
+      registerHealthIndicator: true
+      ringBufferSizeInClosedState: 5
+      ringBufferSizeInHalfOpenState: 3
+      waitDurationInOpenState: 10s
+      failureRateThreshold: 50
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+        - java.util.concurrent.TimeoutException
+        - org.springframework.web.client.ResourceAccessException
+        - org.springframework.web.client.HttpClientErrorException
+      ignoreExceptions:
+          
+    get:
+      registerHealthIndicator: true
+      ringBufferSizeInClosedState: 6
+      ringBufferSizeInHalfOpenState: 4
+      waitDurationInOpenState: 20s
+      failureRateThreshold: 60
+
+resilience4j.ratelimiter:
+  instances:
+    add:
+      limitForPeriod: 5
+      limitRefreshPeriod: 100000
+      timeoutDuration: 1000ms
+
+resilience4j.retry:
+  instances:
+    get:
+      maxRetryAttempts: 5
+      waitDuration: 10000
+
+# server:
+#   port: 8084
+
+# management.endpoints.web.exposure.include: '*'
+# management.endpoint.health.show-details: always
+
+# resilience4j.circuitbreaker:
+#   instances:
+#     get:
+#       registerHealthIndicator: true
+#       ringBufferSizeInClosedState: 5
+#       ringBufferSizeInHalfOpenState: 3
+#       waitDurationInOpenState: 10s
+#       failureRateThreshold: 50
+#       recordExceptions:
+#         - org.springframework.web.client.HttpServerErrorException
+#         - java.io.IOException
+#         - java.util.concurrent.TimeoutException
+#         - org.springframework.web.client.ResourceAccessException
+#         - org.springframework.web.client.HttpClientErrorException
+#       ignoreExceptions:
+          
+#     add:
+#       registerHealthIndicator: true
+#       ringBufferSizeInClosedState: 6
+#       ringBufferSizeInHalfOpenState: 4
+#       waitDurationInOpenState: 20s
+#       failureRateThreshold: 60
+
+# resilience4j.ratelimiter:
+#   instances:
+#     get:
+#       limitForPeriod: 10
+#       limitRefreshPeriod: 100000
+#       timeoutDuration: 1000ms
+
+# resilience4j.retry:
+#   instances:
+#     add:
+#       maxRetryAttempts: 5
+#       waitDuration: 10000
+
