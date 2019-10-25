@@ -31,8 +31,9 @@ Start both the applications -
   
  All the patterns are implemented in librarymanangement code.
 
-Test the patterns -
- CircuitBreaker Pattern -
+## Test the patterns   
+     
+###  CircuitBreaker Pattern -
       First check the librarymanangement health url - http://localhost:8084/actuator/health to see circuitbreaker metrics exposed through Prometheus
       It should show the state 'Closed' if the application is workin fine.
       
