@@ -14,27 +14,29 @@ It has two projects
  librarymanangement calls bookmanagement service.
 
 Start both the applications -
-  .gradlew build
+
+  gradlew build
   
   java -jar build/libs/bookmanangement-0.0.1-SNAPSHOT.jar
 
   url -  http://localhost:8083/books
 
   
-  .gradlew build
+  gradlew build
   
   java -jar build/libs/librarymanangement-0.0.1-SNAPSHOT.jar
 
-    url -  http://localhost:8084/library
+  url -  http://localhost:8084/library
 
-    Test the Get/Post methods with Swagger UI- http://localhost:8084/swagger-ui.html to ensure app methods working.
+  Test the Get/Post methods with Swagger UI- http://localhost:8084/swagger-ui.html to ensure app methods working.
   
  All the patterns are implemented in librarymanangement code.
 
 ## Test the patterns   
      
 ###  CircuitBreaker Pattern -
-      First check the librarymanangement health url - http://localhost:8084/actuator/health to see circuitbreaker metrics exposed through Prometheus
+      First check the librarymanangement health url - http://localhost:8084/actuator/health 
+      to see circuitbreaker metrics exposed through Prometheus
       It should show the state 'Closed' if the application is workin fine.
       
       Now, Stop the bookmanagement application.

@@ -20,19 +20,21 @@ public class LibrarymanagementServiceImpl implements LibrarymanagementService {
     private RestTemplate restTemplate;
     public LibrarymanagementServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
+        
     }
 
     @Override
     @CircuitBreaker(name = "add", fallbackMethod = "fallbackForaddBook")
     public String addBook(Book book){
+        logger.error("Inside addbook call book service. ");
         String response = restTemplate.postForObject("/books", book, String.class);
-        logger.error("Inside addbook, cause ");
         return response;
     }
 
     @Override
     @RateLimiter(name = "add", fallbackMethod = "fallbackForRatelimitBook")
     public String addBookwithRateLimit(Book book){
+        logger.error("Inside addbook Ratelimit. ");
         String response = restTemplate.postForObject("/books", book, String.class);
         logger.error("Inside addbook, cause ");
         return response;

@@ -23,32 +23,29 @@ public class LibraryConfig {
 
     @Bean
     RestTemplate restTemplate(RestTemplateBuilder builder) {
-        logger.info("API Key----"+newRelicConfig.apiKey());
         UriTemplateHandler uriTemplateHandler = new RootUriTemplateHandler(baseUrl);
         return builder
                 .uriTemplateHandler(uriTemplateHandler)
                 .build();
 
-     
     }
-
-
     NewRelicConfig newRelicConfig = new NewRelicConfig() {
         @Override
         public String accountId() {
             return "1807775";
         }
-
+    
         @Override
         public String apiKey() {
             return "wQsPsZ8e9TUHvXE15_wcTJkoo08nBco5";
         }
-
+    
         @Override
         public String get(String k) {
             return null; // accept the rest of the defaults
         }
     };
+        
     MeterRegistry registry = new NewRelicMeterRegistry(newRelicConfig, Clock.SYSTEM);
-    
+  
 }
