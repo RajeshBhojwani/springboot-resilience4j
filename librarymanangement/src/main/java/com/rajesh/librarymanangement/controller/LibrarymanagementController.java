@@ -32,4 +32,8 @@ public class LibrarymanagementController {
     public List<Book> getSellersList() {
         return librarymanagementService.getBookList();
     }
+    @GetMapping ("/bulkhead")
+    public List<Book> getSellersListBulkhead() {
+        return librarymanagementService.getBookListBulkhead();
+    }
 }

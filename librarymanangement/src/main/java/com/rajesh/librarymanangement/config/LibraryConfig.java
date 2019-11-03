@@ -19,8 +19,8 @@ import io.micrometer.newrelic.NewRelicMeterRegistry;
 @Configuration
 public class LibraryConfig {
     Logger logger = LoggerFactory.getLogger(LibrarymanagementServiceImpl.class);
-    private static final String baseUrl = "https://bookmanagement-service.apps.np.sdppcf.com";
-
+    //private static final String baseUrl = "https://bookmanagement-service.apps.np.sdppcf.com";
+    private static final String baseUrl = "http://localhost:8083";
     @Bean
     RestTemplate restTemplate(RestTemplateBuilder builder) {
         UriTemplateHandler uriTemplateHandler = new RootUriTemplateHandler(baseUrl);

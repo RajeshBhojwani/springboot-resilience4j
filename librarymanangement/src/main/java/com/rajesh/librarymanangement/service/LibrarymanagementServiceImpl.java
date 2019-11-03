@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
@@ -18,14 +19,15 @@ import io.github.resilience4j.retry.annotation.Retry;
 public class LibrarymanagementServiceImpl implements LibrarymanagementService {
     Logger logger = LoggerFactory.getLogger(LibrarymanagementServiceImpl.class);
     private RestTemplate restTemplate;
+
     public LibrarymanagementServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        
+
     }
 
     @Override
     @CircuitBreaker(name = "add", fallbackMethod = "fallbackForaddBook")
-    public String addBook(Book book){
+    public String addBook(Book book) {
         logger.error("Inside addbook call book service. ");
         String response = restTemplate.postForObject("/books", book, String.class);
         return response;
@@ -33,7 +35,7 @@ public class LibrarymanagementServiceImpl implements LibrarymanagementService {
 
     @Override
     @RateLimiter(name = "add", fallbackMethod = "fallbackForRatelimitBook")
-    public String addBookwithRateLimit(Book book){
+    public String addBookwithRateLimit(Book book) {
         logger.error("Inside addbook Ratelimit. ");
         String response = restTemplate.postForObject("/books", book, String.class);
         logger.error("Inside addbook, cause ");
@@ -42,7 +44,21 @@ public class LibrarymanagementServiceImpl implements LibrarymanagementService {
 
     @Override
     @Retry(name = "get", fallbackMethod = "fallbackRetry")
-    public List<Book> getBookList(){
+    public List<Book> getBookList() {
+        logger.info("Inside getBookList");
+        return restTemplate.getForObject("/books", List.class);
+    }
+
+    @Override
+    @Bulkhead(name = "get", type = Bulkhead.Type.SEMAPHORE, fallbackMethod = "fallbackBulkhead")
+    public List<Book> getBookListBulkhead() {
+        logger.info("Inside getBookList bulk head");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return restTemplate.getForObject("/books", List.class);
     }
 
@@ -66,5 +82,16 @@ public class LibrarymanagementServiceImpl implements LibrarymanagementService {
         list.add(book);
         return list;
     }
-      
+    public List<Book> fallbackBulkhead(Throwable t) {
+        logger.error("Inside fallbackBulkhead, cause - {}", t.toString());
+        Book book   =   new Book();
+        book.setAuthor("DefaultBulkhead");
+        book.setStatus("DefaultBulkhead");
+        book.setTitle("DefaultBulkhead");
+        List<Book> list =   new ArrayList<Book>();
+        list.add(book);
+        return list;
+    }
+
+    
 }

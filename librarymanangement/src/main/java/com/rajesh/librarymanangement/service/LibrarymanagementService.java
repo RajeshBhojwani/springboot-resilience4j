@@ -8,6 +8,6 @@ public interface LibrarymanagementService {
 
     String addBook(Book book);
     String addBookwithRateLimit(Book book);
-
     List<Book> getBookList();
+    List<Book> getBookListBulkhead();
 }
