@@ -15,13 +15,16 @@ It has two projects
 
 Start both the applications -
 
+Book Management Service
   gradlew build
   
   java -jar build/libs/bookmanangement-0.0.1-SNAPSHOT.jar
 
   url -  http://localhost:8083/books
 
-  
+Library Management Service
+Change the url of Book Management service in LibraryConfig.java file (localhost or PCF url)
+ 
   gradlew build
   
   java -jar build/libs/librarymanangement-0.0.1-SNAPSHOT.jar

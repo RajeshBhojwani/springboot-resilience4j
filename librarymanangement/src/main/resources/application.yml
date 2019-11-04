@@ -54,6 +54,6 @@ resilience4j.retry:
 resilience4j.bulkhead:
   instances:
     get:
-      maxConcurrentCall: 10
+      max-concurrent-calls: 10
       maxWaitDuration: 10ms
   

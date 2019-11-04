@@ -52,9 +52,9 @@ public class LibrarymanagementServiceImpl implements LibrarymanagementService {
     @Override
     @Bulkhead(name = "get", type = Bulkhead.Type.SEMAPHORE, fallbackMethod = "fallbackBulkhead")
     public List<Book> getBookListBulkhead() {
-        logger.info("Inside getBookList bulk head");
+        logger.error("Inside getBookList bulk head");
         try {
-            Thread.sleep(1000);
+            Thread.sleep(100000);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
